@@ -174,7 +174,7 @@ export default function Page() {
                     {/* Button */}
                     <button
                       type="submit"
-                      className="text-sm font-medium bg-[#2AA169] text-white py-2 px-6 rounded-md "
+                      className="text-sm font-medium bg-[#2AA169] text-white py-2 px-6 rounded-md cursor-pointer"
                     >
                       Send Message
                     </button>
