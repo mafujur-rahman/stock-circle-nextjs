@@ -19,15 +19,15 @@ const teamMembers = [
   },
   {
     name: "Sapna Lakhotia",
-    role: "Article Assistant",
+    role: "Financial Head",
     image: "https://pub-338f0345bf6c431fbd5bd8d3f2174595.r2.dev/stock-team/shapna.jpg",
     description:
       "Oversees financial planning, budgeting, and smooth fiscal operations.",
-    linkedin: "linkedin.com/in/sapna-lakhotia-b5b817220",
+    linkedin: "https://www.linkedin.com/in/sapna-lakhotia-b5b817220",
   },
   {
     name: "Shreya Mehta",
-    role: "Marketing Manager",
+    role: "Head of Marketing",
     image: "https://pub-338f0345bf6c431fbd5bd8d3f2174595.r2.dev/stock-team/sreya.jpg",
     description:
       "Drives brand presence through strategic social media campaigns.",
@@ -35,7 +35,7 @@ const teamMembers = [
   },
   {
     name: "Saral Kumar",
-    role: "Management Supervisor",
+    role: "Branding Head",
     image: "https://pub-338f0345bf6c431fbd5bd8d3f2174595.r2.dev/stock-team/saral.jpg",
     description:
       "Shapes the brand identity and manages public relations initiatives .",
@@ -43,19 +43,24 @@ const teamMembers = [
   },
   {
     name: "Prashant Bhutra",
-    role: "Social Media Specialist",
+    role: "Editor",
     image: "https://pub-338f0345bf6c431fbd5bd8d3f2174595.r2.dev/stock-team/prosanth.jpg",
     description:
       "Creates engaging content and supports daily social media execution.",
-    linkedin: "https://linkedin.com/",
   },
   {
     name: "Dinesh Gupta",
-    role: "Head of Accounts",
+    role: "Legal and Accounts",
     image: "https://pub-338f0345bf6c431fbd5bd8d3f2174595.r2.dev/hero-final.png",
     description:
       "Manages financial records, compliance, and company accounting systems.",
-    linkedin: "https://linkedin.com/",
+  },
+  {
+    name: "Preeti Arya",
+    role: "Social Media Intern",
+    image: "https://pub-338f0345bf6c431fbd5bd8d3f2174595.r2.dev/stock-team/preeti-arya.jpeg",
+    description:
+      "Manages financial records, compliance, and company accounting systems.",
   },
 ];
 
@@ -83,11 +88,10 @@ export default function OurTeam() {
               {teamMembers.map((member, index) => (
                 <div
                   key={index}
-                  className={`p-4 cursor-pointer transition rounded-xl min-w-[250px] snap-center ${
-                    index === currentIndex
+                  className={`p-4 cursor-pointer transition rounded-xl min-w-[250px] snap-center ${index === currentIndex
                       ? "border border-black/10"
                       : "border hover:border-black/10 border-black/10 lg:border-black/5 text-gray-400"
-                  }`}
+                    }`}
                   onClick={() => setCurrentIndex(index)}
                 >
                   <div className="flex items-center gap-x-2.5">
@@ -96,28 +100,25 @@ export default function OurTeam() {
                       alt={member.name}
                       height={500}
                       width={500}
-                      className={`size-16 object-cover object-top transition ${
-                        index === currentIndex
+                      className={`size-16 object-cover object-top transition ${index === currentIndex
                           ? "border-2 rounded-full p-1 border-[#4483B8]"
                           : "border-2 rounded-full p-1 border-black/5"
-                      }`}
+                        }`}
                     />
                     <div>
                       <h3
-                        className={`text-lg sm:text-xl font-semibold ${
-                          index === currentIndex
+                        className={`text-lg sm:text-xl font-semibold ${index === currentIndex
                             ? "text-[#4483B8]"
                             : "text-gray-500"
-                        }`}
+                          }`}
                       >
                         {member.name}
                       </h3>
                       <p
-                        className={`text-sm sm:text-base ${
-                          index === currentIndex
+                        className={`text-sm sm:text-base ${index === currentIndex
                             ? "text-gray-600"
                             : "text-gray-400"
-                        }`}
+                          }`}
                       >
                         {member.role}
                       </p>
@@ -134,11 +135,10 @@ export default function OurTeam() {
             {teamMembers.map((member, index) => (
               <div
                 key={index}
-                className={`p-4 cursor-pointer transition rounded-xl min-w-[250px] snap-center ${
-                  index === currentIndex
+                className={`p-4 cursor-pointer transition rounded-xl min-w-[250px] snap-center ${index === currentIndex
                     ? "border border-black/10"
                     : "border hover:border-black/10 border-black/10 lg:border-black/5 text-gray-400"
-                }`}
+                  }`}
                 onClick={() => setCurrentIndex(index)}
               >
                 <div className="flex items-center gap-x-2.5">
@@ -147,28 +147,25 @@ export default function OurTeam() {
                     alt={member.name}
                     height={500}
                     width={500}
-                    className={`size-16 object-cover object-top transition ${
-                      index === currentIndex
+                    className={`size-16 object-cover object-top transition ${index === currentIndex
                         ? "border-2 rounded-full p-1 border-[#4483B8]"
                         : "border-2 rounded-full p-1 border-black/5"
-                    }`}
+                      }`}
                   />
                   <div>
                     <h3
-                      className={`text-lg sm:text-xl font-semibold ${
-                        index === currentIndex
+                      className={`text-lg sm:text-xl font-semibold ${index === currentIndex
                           ? "text-[#4483B8]"
                           : "text-gray-500"
-                      }`}
+                        }`}
                     >
                       {member.name}
                     </h3>
                     <p
-                      className={`text-sm sm:text-base ${
-                        index === currentIndex
+                      className={`text-sm sm:text-base ${index === currentIndex
                           ? "text-gray-600"
                           : "text-gray-400"
-                      }`}
+                        }`}
                     >
                       {member.role}
                     </p>
@@ -198,15 +195,18 @@ export default function OurTeam() {
               <h4 className="text-base sm:text-lg text-[#2AA169] font-medium">
                 {role}
               </h4>
-              <a
-                href={linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-6 px-6 py-2 bg-[#4483B8] text-white rounded-full hover:bg-[#2A5F85] transition cursor-pointer"
-              >
-                <FaLinkedin className="text-lg" />
-                Linkedin
-              </a>
+              {linkedin && (
+                <a
+                  href={linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-6 px-6 py-2 bg-[#4483B8] text-white rounded-full hover:bg-[#2A5F85] transition cursor-pointer"
+                >
+                  <FaLinkedin className="text-lg" />
+                  Linkedin
+                </a>
+              )}
+
             </div>
           </div>
         </div>
