@@ -89,19 +89,37 @@ const Footer = () => {
                       Blog
                     </Link>
                   </li>
+                  <li>
+                    <Link href="/terms-conditions" className="footer__para">
+                      Terms & Conditions
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy-policy" className="footer__para">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/refund-cancellation-policy" className="footer__para">
+                      Refund and Cancellation policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/return-policy" className="footer__para">
+                      Return Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/shipping-policy" className="footer__para">
+                      Shipping Policy
+                    </Link>
+                  </li>
                   {/* <li>
                     <Link href='/team' className='footer__para'>
                       Our Team
                     </Link>
                   </li> */}
-                  {/* Disclaimer */}
-                  <p className="text-xs text-gray-500 mt-4">
-                    <span className="text-red-500 font-medium">
-                      Disclaimer{" "}
-                    </span>{" "}
-                    The information provided on this website is for general
-                    informational purposes only and may be subject to change.
-                  </p>
+                  
                 </ul>
               </div>
 
@@ -134,6 +152,14 @@ const Footer = () => {
                       Personal Finance Program
                     </Link>
                   </li>
+                  {/* Disclaimer */}
+                  <p className="text-xs text-gray-500 mt-4">
+                    <span className="text-red-500 font-medium">
+                      Disclaimer{" "}
+                    </span>{" "}
+                    The information provided on this website is for general
+                    informational purposes only and may be subject to change.
+                  </p>
                 </ul>
               </div>
 
