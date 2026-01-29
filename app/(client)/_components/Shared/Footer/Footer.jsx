@@ -196,9 +196,9 @@ const Footer = () => {
         <div className="bg-gray-100 py-5 -mb-8.5 mt-5">
           <p className="text-xl text-black  mt-4 px-5 md:px-12 lg:px-16 xl:px-0 max-w-7xl mx-auto">
             <span className="text-red-500 font-medium">
-              Disclaimer{" "}
+              Disclaimer: {" "}
             </span>{" "}
-            “StockCircle provides educational courses on finance only and does not offer investment advice, tips, recommendations, or portfolio management services.”
+            StockCircle provides educational courses on finance only and does not offer investment advice, tips, recommendations, or portfolio management services.
           </p>
         </div>
       </footer>
