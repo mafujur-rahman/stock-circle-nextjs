@@ -2,14 +2,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { FaMailBulk, FaBars, FaTimes } from 'react-icons/fa'
 import { SlArrowDown } from 'react-icons/sl'
 
-export default function Navbar () {
+export default function Navbar() {
   const pathname = usePathname()
   const [openMenu, setOpenMenu] = useState(null)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const dropdownRef = useRef(null)
 
   const menus = [
     { name: 'Home', path: '/' },
@@ -33,9 +34,23 @@ export default function Navbar () {
     setOpenMenu(openMenu === name ? null : name)
   }
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenMenu(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   return (
     <div className='fixed top-0 w-full gradient__color z-50'>
-      <nav className='py-[2vh] max-w-7xl mx-auto flex justify-between items-center px-5 md:px-10   lg:px-16 xl:px-0'>
+      <nav className='py-[2vh] max-w-7xl mx-auto flex justify-between items-center px-5 md:px-10 lg:px-16 xl:px-0'>
         {/* Logo */}
         <Link href='/'>
           <div>
@@ -52,35 +67,32 @@ export default function Navbar () {
         {/* Desktop Menu */}
         <div className='hidden lg:flex items-center gap-x-16'>
           {/* Menu */}
-          <div className='relative'>
+          <div ref={dropdownRef} className='relative'>
             <ul className='flex lg:gap-x-5 xl:gap-x-10 items-center'>
               {menus.map(menu => {
                 const isActive = pathname === menu.path
                 return (
                   <li key={menu.name} className='relative font-medium text-sm'>
-                    <div >
+                    <div>
                       {menu.subMenu ? (
                         <button
                           onClick={() => toggleMenu(menu.name)}
-                          className={` flex items-center font-medium cursor-pointer gap-x-1 hover:text-green-500 transition-colors ${
-                            openMenu === menu.name || isActive
-                              ? 'text-green-500'
-                              : 'text-black'
-                          }`}
+                          className={`flex items-center font-medium cursor-pointer gap-x-1 hover:text-green-500 transition-colors ${openMenu === menu.name || isActive
+                            ? 'text-green-500'
+                            : 'text-black'
+                            }`}
                         >
                           {menu.name}
                           <SlArrowDown
-                            className={`text-sm transition-transform duration-300 ${
-                              openMenu === menu.name ? 'rotate-180' : 'rotate-0'
-                            }`}
+                            className={`text-sm transition-transform duration-300 ${openMenu === menu.name ? 'rotate-180' : 'rotate-0'
+                              }`}
                           />
                         </button>
                       ) : (
                         <Link
                           href={menu.path}
-                          className={`hover:text-green-500 transition-colors cursor-pointer ${
-                            isActive ? 'text-green-500' : 'text-black'
-                          }`}
+                          className={`hover:text-green-500 transition-colors cursor-pointer ${isActive ? 'text-green-500' : 'text-black'
+                            }`}
                         >
                           {menu.name}
                         </Link>
@@ -88,14 +100,16 @@ export default function Navbar () {
 
                       {/* Dropdown */}
                       {menu.subMenu && openMenu === menu.name && (
-                        <ul className='absolute top-full left-0 bg-white shadow-md rounded-md py-2 mt-3 w-64 z-50'>
-                          {menu.subMenu.map(sub => (
+                        <ul className='absolute top-full left-0 bg-white shadow-md rounded-md py-2 mt-3 w-64 z-[60] min-h-fit'>
+                          {menu.subMenu.map((sub) => (
                             <li key={sub.name}>
                               <Link
                                 href={sub.path}
-                                className={`block px-4 py-2 text-sm text-black/80 hover:bg-green-100 hover:text-green-600 transition-colors ${
-                                  pathname === sub.path ? 'text-green-500' : ''
-                                }`}
+                                className={`block px-4 py-2 text-sm text-black/80 hover:bg-green-100 hover:text-green-600 transition-colors ${pathname === sub.path
+                                  ? 'text-green-500 bg-green-50'
+                                  : ''
+                                  }`}
+                                onClick={() => setOpenMenu(null)}
                               >
                                 {sub.name}
                               </Link>
@@ -134,7 +148,7 @@ export default function Navbar () {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className='lg:hidden bg-white shadow-lg border-t border-gray-200 '>
+        <div className='lg:hidden bg-white shadow-lg border-t border-gray-200 z-50'>
           <ul className='flex flex-col'>
             {menus.map(menu => {
               const isActive = pathname === menu.path
@@ -147,28 +161,29 @@ export default function Navbar () {
                     <div>
                       <button
                         onClick={() => toggleMenu(menu.name)}
-                        className={`w-full flex justify-between items-center   py-3 text-left text-sm font-medium ${
-                          openMenu === menu.name || isActive
-                            ? 'text-green-500'
-                            : 'text-black'
-                        }`}
+                        className={`w-full flex justify-between items-center py-3 text-left text-sm font-medium ${openMenu === menu.name || isActive
+                          ? 'text-green-500'
+                          : 'text-black'
+                          }`}
                       >
                         {menu.name}
                         <SlArrowDown
-                          className={`text-sm transition-transform ${
-                            openMenu === menu.name ? 'rotate-180' : ''
-                          }`}
+                          className={`text-sm transition-transform ${openMenu === menu.name ? 'rotate-180' : ''
+                            }`}
                         />
                       </button>
                       {openMenu === menu.name && (
                         <ul>
-                          {menu.subMenu.map(sub => (
+                          {menu.subMenu.map((sub) => (
                             <li key={sub.name}>
                               <Link
                                 href={sub.path}
-                                className={`block py-2 text-sm text-black/80 hover:text-green-600 ${
-                                  pathname === sub.path ? 'text-green-500' : ''
-                                }`}
+                                className={`block py-2 text-sm text-black/80 hover:text-green-600 ${pathname === sub.path ? 'text-green-500' : ''
+                                  }`}
+                                onClick={() => {
+                                  setMobileOpen(false)
+                                  setOpenMenu(null)
+                                }}
                               >
                                 {sub.name}
                               </Link>
@@ -180,9 +195,8 @@ export default function Navbar () {
                   ) : (
                     <Link
                       href={menu.path}
-                      className={`block  py-3 text-sm hover:text-green-500 ${
-                        isActive ? 'text-green-500' : 'text-black'
-                      }`}
+                      className={`block py-3 text-sm hover:text-green-500 ${isActive ? 'text-green-500' : 'text-black'
+                        }`}
                       onClick={() => setMobileOpen(false)}
                     >
                       {menu.name}
@@ -192,9 +206,12 @@ export default function Navbar () {
               )
             })}
             {/* Contact Button in Mobile */}
-            <li className='p-5  md:px-12 lg:px-16 xl:px-0'>
+            <li className='p-5 md:px-12 lg:px-16 xl:px-0'>
               <Link href='/contact'>
-                <button className=' inline-flex items-center justify-center gap-x-2 btn__style '>
+                <button
+                  className='inline-flex items-center justify-center gap-x-2 btn__style'
+                  onClick={() => setMobileOpen(false)}
+                >
                   <FaMailBulk className='text-base text-[#2AA169]' />
                   <span>Contact Us</span>
                 </button>

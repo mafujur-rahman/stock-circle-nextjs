@@ -3,6 +3,10 @@ import {
     HiOutlineShieldCheck,
     HiOutlineExclamationCircle,
     HiOutlineArrowPath,
+    HiOutlineClock,
+    HiOutlineCreditCard,
+    HiOutlineBan,
+    HiOutlineBanknotes,
 } from "react-icons/hi2";
 import { MdContactMail } from "react-icons/md";
 
@@ -12,7 +16,7 @@ export default function RefundCancellationPolicy() {
             <div className="px-5 md:px-12 lg:px-16 xl:px-0 max-w-7xl mx-auto">
 
                 {/* Header */}
-                <div className="flex items-center gap-4 mb-10">
+                <div className="flex items-center gap-4 mb-4">
                     <div className="p-3 rounded-xl bg-gray-100">
                         <HiOutlineShieldCheck className="text-3xl text-gray-800" />
                     </div>
@@ -20,88 +24,68 @@ export default function RefundCancellationPolicy() {
                         Refund & Cancellation Policy
                     </h1>
                 </div>
+                <p>
+                    StockCircle follows a transparent refund and cancellation process.
+                </p>
 
-                {/* Intro */}
+
+
+                {/* Cancellation Period */}
                 <section className="section_topSpace space-y-4">
                     <div className="flex items-center gap-3">
                         <span className="p-2 rounded-lg bg-gray-100">
-                            <HiOutlineDocumentText className="text-xl" />
+                            <HiOutlineClock className="text-xl" />
                         </span>
-                        <h2 className="text-xl font-semibold">Overview</h2>
+                        <h2 className="text-xl font-semibold">Cancellation Period</h2>
                     </div>
-                    <p>
-                        This Refund and Cancellation Policy outlines how you can cancel or seek a refund for a product or service purchased through the Platform.
-                    </p>
+                    <ul className="list-disc pl-5 space-y-2">
+                        <li>Course cancellation requests are accepted within 7 days from the date of purchase.</li>
+                        <li>Requests must be submitted by contacting the StockCircle support team through official communication channels.</li>
+                    </ul>
                 </section>
 
-                {/* Cancellations */}
-                <section className="section_topSpace space-y-4">
-                    <div className="flex items-center gap-3">
-                        <span className="p-2 rounded-lg bg-gray-100">
-                            <HiOutlineExclamationCircle className="text-xl" />
-                        </span>
-                        <h2 className="text-xl font-semibold">Cancellations</h2>
-                    </div>
-                    <p>
-                        Cancellations will only be considered if the request is made within 10 days of placing the order.
-                    </p>
-                    <p>
-                        Cancellation requests may not be entertained if the orders have already been communicated to the sellers/merchants listed on the Platform, or if the product is out for delivery. In such cases, you may choose to reject the product at the doorstep.
-                    </p>
-                    <p>
-                        StockCircle does not accept cancellation requests for perishable items like flowers, eatables, etc. However, refunds or replacements may be provided if the product delivered is of poor quality.
-                    </p>
-                </section>
-
-                {/* Damaged or Defective Items */}
+                {/* Refund Terms */}
                 <section className="section_topSpace space-y-4">
                     <div className="flex items-center gap-3">
                         <span className="p-2 rounded-lg bg-gray-100">
                             <HiOutlineArrowPath className="text-xl" />
                         </span>
-                        <h2 className="text-xl font-semibold">Damaged or Defective Items</h2>
+                        <h2 className="text-xl font-semibold">Refund Terms</h2>
                     </div>
-                    <p>
-                        If you receive damaged or defective items, please report to our customer service team within 10 days of receipt. The request will be entertained after verification by the seller/merchant listed on the Platform.
-                    </p>
+                    <ul className="list-disc pl-5 space-y-2">
+                        <li>Refunds are applicable even if the student has attended or accessed live sessions during the 7-day period.</li>
+                        <li>Approved refunds will be processed within 7 days from the date of cancellation confirmation.</li>
+                        <li>Refunds will be credited to the original payment method used at the time of purchase.</li>
+                    </ul>
                 </section>
 
-                {/* Product Not as Expected */}
+                {/* Non-Refundable Cases */}
                 <section className="section_topSpace space-y-4">
                     <div className="flex items-center gap-3">
                         <span className="p-2 rounded-lg bg-gray-100">
-                            <HiOutlineExclamationCircle className="text-xl" />
+                            <HiOutlineBanknotes className="text-xl" />
                         </span>
-                        <h2 className="text-xl font-semibold">Product Not as Expected</h2>
+                        <h2 className="text-xl font-semibold">Non-Refundable Cases</h2>
                     </div>
                     <p>
-                        If the product received is not as shown on the Platform or does not meet your expectations, you must notify our customer service team within 10 days of receiving the product. The team will review your complaint and take an appropriate decision.
+                        Refunds will not be provided if:
                     </p>
+                    <ul className="list-disc pl-5 space-y-2">
+                        <li>The cancellation request is made after 7 days from the purchase date</li>
+                        <li>There is evidence of misuse, sharing, or violation of the Terms and Conditions</li>
+                    </ul>
                 </section>
 
-                {/* Warranty Products */}
+                {/* Payment Processing */}
                 <section className="section_topSpace space-y-4">
                     <div className="flex items-center gap-3">
                         <span className="p-2 rounded-lg bg-gray-100">
-                            <HiOutlineDocumentText className="text-xl" />
+                            <HiOutlineCreditCard className="text-xl" />
                         </span>
-                        <h2 className="text-xl font-semibold">Products with Warranty</h2>
+                        <h2 className="text-xl font-semibold">Payment Processing</h2>
                     </div>
                     <p>
-                        For products that come with a manufacturer’s warranty, please refer the issue directly to the manufacturer for resolution.
-                    </p>
-                </section>
-
-                {/* Refund Processing */}
-                <section className="section_topSpace space-y-4">
-                    <div className="flex items-center gap-3">
-                        <span className="p-2 rounded-lg bg-gray-100">
-                            <HiOutlineArrowPath className="text-xl" />
-                        </span>
-                        <h2 className="text-xl font-semibold">Refund Processing</h2>
-                    </div>
-                    <p>
-                        Any refunds approved by StockCircle will be processed within 3 days to your original payment method.
+                        Actual credit timelines may vary depending on the payment gateway or banking institution.
                     </p>
                 </section>
 
@@ -114,7 +98,7 @@ export default function RefundCancellationPolicy() {
                         <h2 className="text-xl font-semibold">Contact Information</h2>
                     </div>
                     <p>
-                        For any questions or concerns regarding cancellations, refunds, or product issues, please contact our customer service using the information provided on this website.
+                        For any questions regarding cancellations or refunds, please contact the StockCircle support team through official communication channels.
                     </p>
                 </section>
 

@@ -391,7 +391,7 @@ export default function Page() {
               height={1000}
               width={1000}
               alt="certificate"
-              src="/certificate.jpg"
+              src="/stock-circle-course-certificate.jpeg"
               className="h-full w-full object-cover rounded-xl"
             />
           </div>

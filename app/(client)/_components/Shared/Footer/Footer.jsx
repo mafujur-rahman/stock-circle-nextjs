@@ -105,21 +105,17 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/return-policy" className="footer__para">
-                      Return Policy
+                    <Link href="/disclaimer" className="footer__para">
+                      Desclaimer
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/shipping-policy" className="footer__para">
-                      Shipping Policy
-                    </Link>
-                  </li>
+                 
                   {/* <li>
                     <Link href='/team' className='footer__para'>
                       Our Team
                     </Link>
                   </li> */}
-                  
+
                 </ul>
               </div>
 
@@ -152,14 +148,7 @@ const Footer = () => {
                       Personal Finance Program
                     </Link>
                   </li>
-                  {/* Disclaimer */}
-                  <p className="text-xs text-gray-500 mt-4">
-                    <span className="text-red-500 font-medium">
-                      Disclaimer{" "}
-                    </span>{" "}
-                    The information provided on this website is for general
-                    informational purposes only and may be subject to change.
-                  </p>
+
                 </ul>
               </div>
 
@@ -202,6 +191,15 @@ const Footer = () => {
               <span className="font-semibold text-[#4483b8]">Ethical Den</span>
             </a>{" "}
           </h4>
+        </div>
+        {/* Disclaimer */}
+        <div className="bg-gray-100 py-5 -mb-8.5 mt-5">
+          <p className="text-xl text-black  mt-4 px-5 md:px-12 lg:px-16 xl:px-0 max-w-7xl mx-auto">
+            <span className="text-red-500 font-medium">
+              Disclaimer{" "}
+            </span>{" "}
+            “StockCircle provides educational courses on finance only and does not offer investment advice, tips, recommendations, or portfolio management services.”
+          </p>
         </div>
       </footer>
 

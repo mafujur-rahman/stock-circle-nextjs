@@ -66,7 +66,7 @@ export default function About() {
               <div className=" ab__card__parent card__border">
                 <p className="base__para">
                   At StockCircle, we believe money shouldn’t feel like rocket
-                  science—or worse, like a gamble. We cut through the noise and
+                  science. We cut through the noise and
                   make investing simple, fun, and practical. Think of us as your
                   circle where financial wisdom is shared, mistakes are avoided,
                   and wins are celebrated.
@@ -77,8 +77,7 @@ export default function About() {
                   professionals who decided finance shouldn’t be locked behind
                   boring textbooks or jargon-filled lectures. That’s why our
                   live courses are built to keep you hooked, not half-asleep.
-                  Our mission? To remove the age-old stigma that “stock market =
-                  gambling” and prove it’s actually an art, a science, and a
+                  Our mission? it’s actually an art, a science, and a
                   life skill. Whether it’s stocks, derivatives, or the basics of
                   money management, we teach you how to play smart, not lucky.
                   Finance is serious business, sure—but who said it can’t be
