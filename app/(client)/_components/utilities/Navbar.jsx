@@ -34,8 +34,10 @@ export default function Navbar() {
     setOpenMenu(openMenu === name ? null : name)
   }
 
-  // Close dropdown when clicking outside
+  // ✅ Outside click ONLY for desktop
   useEffect(() => {
+    if (mobileOpen) return
+
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setOpenMenu(null)
@@ -43,10 +45,8 @@ export default function Navbar() {
     }
 
     document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [mobileOpen])
 
   return (
     <div className='fixed top-0 w-full gradient__color z-50'>
@@ -66,7 +66,6 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <div className='hidden lg:flex items-center gap-x-16'>
-          {/* Menu */}
           <div ref={dropdownRef} className='relative'>
             <ul className='flex lg:gap-x-5 xl:gap-x-10 items-center'>
               {menus.map(menu => {
@@ -152,64 +151,66 @@ export default function Navbar() {
           <ul className='flex flex-col'>
             {menus.map(menu => {
               const isActive = pathname === menu.path
-              return (
-                <li
-                  key={menu.name}
-                  className='border-b border-gray-200 px-5 md:px-12 lg:px-16 xl:px-0'
-                >
-                  {menu.subMenu ? (
-                    <div>
-                      <button
-                        onClick={() => toggleMenu(menu.name)}
-                        className={`w-full flex justify-between items-center py-3 text-left text-sm font-medium ${openMenu === menu.name || isActive
-                          ? 'text-green-500'
-                          : 'text-black'
-                          }`}
-                      >
-                        {menu.name}
-                        <SlArrowDown
-                          className={`text-sm transition-transform ${openMenu === menu.name ? 'rotate-180' : ''
-                            }`}
-                        />
-                      </button>
-                      {openMenu === menu.name && (
-                        <ul>
-                          {menu.subMenu.map((sub) => (
-                            <li key={sub.name}>
-                              <Link
-                                href={sub.path}
-                                className={`block py-2 text-sm text-black/80 hover:text-green-600 ${pathname === sub.path ? 'text-green-500' : ''
-                                  }`}
-                                onClick={() => {
-                                  setMobileOpen(false)
-                                  setOpenMenu(null)
-                                }}
-                              >
-                                {sub.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  ) : (
-                    <Link
-                      href={menu.path}
-                      className={`block py-3 text-sm hover:text-green-500 ${isActive ? 'text-green-500' : 'text-black'
+
+              if (menu.subMenu) {
+                return (
+                  <li key={menu.name} className='border-b border-gray-200'>
+                    <button
+                      onClick={() => toggleMenu(menu.name)}
+                      className={`w-full px-5 md:px-12 py-3 flex justify-between items-center text-sm font-medium text-left ${openMenu === menu.name || isActive
+                        ? 'text-green-500'
+                        : 'text-black'
                         }`}
-                      onClick={() => setMobileOpen(false)}
                     >
                       {menu.name}
-                    </Link>
-                  )}
+                      <SlArrowDown
+                        className={`text-sm transition-transform ${openMenu === menu.name ? 'rotate-180' : ''
+                          }`}
+                      />
+                    </button>
+
+                    {openMenu === menu.name && (
+                      <div className='px-8 md:px-16 py-2 bg-gray-50'>
+                        {menu.subMenu.map((sub) => (
+                          <div key={sub.name} className='py-2'>
+                            <Link
+                              href={sub.path}
+                              className={`text-sm text-black/80 hover:text-green-600 ${pathname === sub.path ? 'text-green-500' : ''
+                                }`}
+                              onClick={() => {
+                                setMobileOpen(false)
+                                setOpenMenu(null)
+                              }}
+                            >
+                              {sub.name}
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </li>
+                )
+              }
+
+              return (
+                <li key={menu.name} className='border-b border-gray-200'>
+                  <Link
+                    href={menu.path}
+                    className={`block px-5 md:px-12 py-3 text-sm hover:text-green-500 ${isActive ? 'text-green-500' : 'text-black'
+                      }`}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {menu.name}
+                  </Link>
                 </li>
               )
             })}
+
             {/* Contact Button in Mobile */}
-            <li className='p-5 md:px-12 lg:px-16 xl:px-0'>
+            <li className='p-5 md:px-12'>
               <Link href='/contact'>
                 <button
-                  className='inline-flex items-center justify-center gap-x-2 btn__style'
+                  className='inline-flex items-center justify-center gap-x-2 btn__style w-full'
                   onClick={() => setMobileOpen(false)}
                 >
                   <FaMailBulk className='text-base text-[#2AA169]' />
