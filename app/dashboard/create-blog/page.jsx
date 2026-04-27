@@ -9,7 +9,6 @@ import { GrBlog } from 'react-icons/gr'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 
-
 import Topbar from '@/app/(client)/_components/dashboard/Topbar'
 import useAuthToken from '@/app/(client)/_components/hooks/useAuthToken'
 
@@ -23,15 +22,16 @@ export default function Page() {
   const [authorName, setWritterName] = useState('')
   const [file, setFile] = useState(null)
   const [content, setContent] = useState('')
-
+  const [isSubmitting, setIsSubmitting] = useState(false) // Add loading state
   const [showConfirmModal, setShowConfirmModal] = useState(false)
-  const [showToast, setShowToast] = useState(false)
   const { token } = useAuthToken()
 
   const router = useRouter()
 
   // Actual submission logic
   const submitForm = async () => {
+    setIsSubmitting(true) // Set loading state
+    
     const formData = new FormData()
     formData.append('title', title)
     formData.append('writer', authorName)
@@ -54,11 +54,16 @@ export default function Page() {
         }
       )
 
-      toast.success('Blog post created successfully!')
-      router.push('/dashboard/manage-blog')
-
-      setShowToast(true)
+      // Close modal first
       setShowConfirmModal(false)
+      
+      // Show success toast
+      toast.success('Blog post created successfully!')
+      
+      // Wait for toast to be visible before navigation
+      setTimeout(() => {
+        router.push('/dashboard/manage-blog')
+      }, 1500) // Give time for toast to show
 
       // Reset form
       setTitle('')
@@ -67,19 +72,26 @@ export default function Page() {
       setContent('')
       setFile(null)
 
-      setTimeout(() => setShowToast(false), 3000)
     } catch (error) {
       console.error(
         'Error submitting blog post:',
         error.response?.data || error
       )
-      toast.error('Error submitting blog post')
+      toast.error(error.response?.data?.message || 'Error submitting blog post')
+      setShowConfirmModal(false)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
   // Show modal on form submit instead of direct submit
   const handleSubmit = e => {
     e.preventDefault()
+    // Validate required fields before showing modal
+    if (!title || !authorName || !shortDesc || !content) {
+      toast.error('Please fill in all required fields')
+      return
+    }
     setShowConfirmModal(true)
   }
 
@@ -195,10 +207,11 @@ export default function Page() {
           <div>
             <button
               type='submit'
-              className=' cursor-pointer mt-5 mb-10 py-2 px-6 bg-blue-400  text-white rounded flex items-center justify-center gap-2 hover:bg-blue-500 transition-colors duration-200'
+              disabled={isSubmitting}
+              className='cursor-pointer mt-5 mb-10 py-2 px-6 bg-blue-400 text-white rounded flex items-center justify-center gap-2 hover:bg-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed'
             >
               <IoIosSend className='text-lg' />
-              <span>Submit</span>
+              <span>{isSubmitting ? 'Submitting...' : 'Submit'}</span>
             </button>
           </div>
         </form>
@@ -216,15 +229,17 @@ export default function Page() {
               <div className='flex justify-between gap-4'>
                 <button
                   onClick={() => setShowConfirmModal(false)}
-                  className='flex-1 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer'
+                  disabled={isSubmitting}
+                  className='flex-1 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer disabled:opacity-50'
                 >
                   Cancel
                 </button>
                 <button
                   onClick={submitForm}
-                  className='flex-1 py-2 bg-blue-400 text-white rounded hover:bg-blue-500 cursor-pointer'
+                  disabled={isSubmitting}
+                  className='flex-1 py-2 bg-blue-400 text-white rounded hover:bg-blue-500 cursor-pointer disabled:opacity-50'
                 >
-                  Yes, Submit
+                  {isSubmitting ? 'Submitting...' : 'Yes, Submit'}
                 </button>
               </div>
             </div>
