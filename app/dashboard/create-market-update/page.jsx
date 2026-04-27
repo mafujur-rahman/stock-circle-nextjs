@@ -11,24 +11,21 @@ import { VscGraph } from 'react-icons/vsc'
 import useAuthToken from '@/app/(client)/_components/hooks/useAuthToken'
 import Topbar from '@/app/(client)/_components/dashboard/Topbar'
 
-
-
-export default function Page () {
-
-
+export default function Page() {
   const [title, setTitle] = useState('')
   const [shortDesc, setShortDesc] = useState('')
   const [file, setFile] = useState(null)
   const [url, setUrl] = useState('')
-
+  const [isSubmitting, setIsSubmitting] = useState(false) // Add loading state
   const [showConfirmModal, setShowConfirmModal] = useState(false)
-  const [showToast, setShowToast] = useState(false)
   const { token } = useAuthToken()
 
   const router = useRouter()
 
   // Actual submission logic
   const submitForm = async () => {
+    setIsSubmitting(true)
+    
     const formData = new FormData()
     formData.append('title', title)
     formData.append('short_summary', shortDesc)
@@ -50,32 +47,48 @@ export default function Page () {
         }
       )
 
-      toast.success('Market update post created successfully!')
-      router.push('/dashboard/manage-market-update')
-
-      setShowToast(true)
+      // Close modal first
       setShowConfirmModal(false)
+      
+      // Show success toast
+      toast.success('Market update post created successfully!')
+      
+      // Wait for toast to be visible before navigation
+      setTimeout(() => {
+        router.push('/dashboard/manage-market-update')
+      }, 1500)
 
       // Reset form
       setTitle('')
-      setWritterName('')
       setShortDesc('')
-      setContent('')
+      setUrl('')
       setFile(null)
 
-      setTimeout(() => setShowToast(false), 3000)
     } catch (error) {
       console.error(
-        'Error submitting blog post:',
+        'Error submitting market update:',
         error.response?.data || error
       )
-      toast.error('Error submitting blog post')
+      // Show specific error message if available
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.error || 
+                          'Error submitting market update'
+      toast.error(errorMessage)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
   // Show modal on form submit instead of direct submit
   const handleSubmit = e => {
     e.preventDefault()
+    
+    // Validate required fields
+    if (!title || !shortDesc || !url) {
+      toast.error('Please fill in all required fields')
+      return
+    }
+    
     setShowConfirmModal(true)
   }
 
@@ -94,7 +107,7 @@ export default function Page () {
         </div>
 
         <form onSubmit={handleSubmit} className='space-y-6 bg-white rounded'>
-          <div className='  gap-x-5'>
+          <div className='gap-x-5'>
             {/* Title */}
             <div>
               <label className='block mb-2 font-medium text-gray-700'>
@@ -109,7 +122,6 @@ export default function Page () {
                 className='w-full px-4 py-2 border rounded border-black/10 outline-none'
               />
             </div>
-
           </div>
 
           <div className='grid md:grid-cols-2 gap-x-5'>
@@ -162,24 +174,25 @@ export default function Page () {
             <label className='block mb-2 font-medium text-gray-700'>
               Source URL
             </label>
-              <input
-                type='text'
-                value={url}
-                onChange={e => setUrl(e.target.value)}
-                placeholder='Source url'
-                required
-                className='w-full px-4 py-2 border border-black/10 rounded outline-none'
-              />
+            <input
+              type='url'
+              value={url}
+              onChange={e => setUrl(e.target.value)}
+              placeholder='Source url'
+              required
+              className='w-full px-4 py-2 border border-black/10 rounded outline-none'
+            />
           </div>
 
           {/* Submit Button */}
           <div>
             <button
               type='submit'
-              className=' cursor-pointer mt-5 mb-10 py-2 px-6 bg-blue-400  text-white rounded flex items-center justify-center gap-2 hover:bg-blue-500 transition-colors duration-200'
+              disabled={isSubmitting}
+              className='cursor-pointer mt-5 mb-10 py-2 px-6 bg-blue-400 text-white rounded flex items-center justify-center gap-2 hover:bg-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed'
             >
               <IoIosSend className='text-lg' />
-              <span>Submit</span>
+              <span>{isSubmitting ? 'Submitting...' : 'Submit'}</span>
             </button>
           </div>
         </form>
@@ -197,15 +210,17 @@ export default function Page () {
               <div className='flex justify-between gap-4'>
                 <button
                   onClick={() => setShowConfirmModal(false)}
-                  className='flex-1 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer'
+                  disabled={isSubmitting}
+                  className='flex-1 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer disabled:opacity-50'
                 >
                   Cancel
                 </button>
                 <button
                   onClick={submitForm}
-                  className='flex-1 py-2 bg-blue-400 text-white rounded hover:bg-blue-500 cursor-pointer'
+                  disabled={isSubmitting}
+                  className='flex-1 py-2 bg-blue-400 text-white rounded hover:bg-blue-500 cursor-pointer disabled:opacity-50'
                 >
-                  Yes, Submit
+                  {isSubmitting ? 'Submitting...' : 'Yes, Submit'}
                 </button>
               </div>
             </div>
