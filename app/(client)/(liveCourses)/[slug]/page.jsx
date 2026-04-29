@@ -9,9 +9,10 @@ import Marquee from "react-fast-marquee";
 import BaseBtn from "../../_components/utilities/BaseBtn";
 import { MdOutlineJoinFull } from "react-icons/md";
 import Image from "next/image";
-
 import { GrCertificate } from "react-icons/gr";
 import Footer from "../../_components/Shared/Footer/Footer";
+import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
 
 const IconWrapper = ({ Icon, className }) =>
   Icon ? <Icon className={className || "text-3xl text-blue-600"} /> : null;
@@ -23,11 +24,21 @@ export default function Page() {
 
   const [openFaq, setOpenFaq] = useState(0);
 
-  const toggleCurriculamFAQ = (index) => {
-    setOpenFaq(openFaq === index ? -1 : index); // close if clicked again
-  };
+  // Add form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    country: 'India (+91)',
+    phone: '',
+    course: 'Basics of Technical Analysis',
+    message: ''
+  });
 
-  //   console.log(coursePagesData , slug)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const toggleCurriculamFAQ = (index) => {
+    setOpenFaq(openFaq === index ? -1 : index);
+  };
 
   // Access page data using slug as key
   const livePageData = Object.values(coursePagesData).find(
@@ -36,6 +47,57 @@ export default function Page() {
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
+  };
+
+  // Helper function to extract country code
+  const getCountryCode = (countryString) => {
+    const match = countryString.match(/\(([^)]+)\)/);
+    return match ? match[1] : null;
+  };
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const countryCode = getCountryCode(formData.country);
+
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      country_code: countryCode,
+      mobile: formData.phone,
+      course: formData.course,
+      message: formData.message
+    };
+
+    try {
+      const res = await axios.post(
+        'https://stockcircle.ethicalden.com/api/contact/get-in-touch/',
+        payload
+      );
+      console.log('Response:', res.data);
+      toast.success('Message sent successfully!');
+      setFormData({
+        name: '',
+        email: '',
+        country: 'India (+91)',
+        phone: '',
+        course: 'Basics of Technical Analysis',
+        message: ''
+      });
+    } catch (err) {
+      console.error('Error sending message:', err);
+      toast.error('Failed to send message.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   console.log(livePageData, slug);
@@ -50,6 +112,7 @@ export default function Page() {
 
   return (
     <section className="">
+      <Toaster position='top-right' reverseOrder={false} />
       <div className="gradient__color">
         <Navbar />
         <div
@@ -112,24 +175,37 @@ export default function Page() {
             <div className="hidden lg:block">
               <div className="bg-white/20 backdrop-blur-2xl rounded-xl relative z-20 ">
                 <div className="p-5 border border-white/10 rounded-xl">
-                  <form className="space-y-4">
+                  <form className="space-y-4" onSubmit={handleSubmit}>
                     {/* Row 1 */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <input
                         type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
                         placeholder="Name"
-                        className="w-full border border-white/80 rounded text-white px-3 py-2 focus:outline-none "
+                        required
+                        className="w-full border border-white/80 rounded text-white px-3 py-2 focus:outline-none bg-transparent"
                       />
                       <input
                         type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         placeholder="Email"
-                        className="w-full border border-white/80 rounded text-white px-3 py-2 focus:outline-none "
+                        required
+                        className="w-full border border-white/80 rounded text-white px-3 py-2 focus:outline-none bg-transparent"
                       />
                     </div>
 
                     {/* Row 2 */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <select className="border border-white/80 text-white rounded px-3 py-2 focus:outline-none ">
+                      <select
+                        name="country"
+                        value={formData.country}
+                        onChange={handleChange}
+                        className="border border-white/80 text-white rounded px-3 py-2 focus:outline-none bg-transparent"
+                      >
                         <option className="text-black/80">India (+91)</option>
                         <option className="text-black/80">Bangladesh (+880)</option>
                         <option className="text-black/80">United Arab Emirates (+971)</option>
@@ -139,26 +215,35 @@ export default function Page() {
                       </select>
                       <input
                         type="text"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
                         placeholder="Phone Number"
-                        className="w-full border border-white/80 rounded text-white px-3 py-2 focus:outline-none "
+                        required
+                        className="w-full border border-white/80 rounded text-white px-3 py-2 focus:outline-none bg-transparent"
                       />
                     </div>
 
                     <div>
-                      <select className="border w-full border-white/80 rounded text-white px-3 py-2 focus:outline-none ">
-                        <option className="text-black/80 ">
+                      <select
+                        name="course"
+                        value={formData.course}
+                        onChange={handleChange}
+                        className="border w-full border-white/80 rounded text-white px-3 py-2 focus:outline-none bg-transparent"
+                      >
+                        <option className="text-black/80">
                           Basics of Technical Analysis
                         </option>
-                        <option className="text-black/80 ">
+                        <option className="text-black/80">
                           Basics of Fundamental Analysis
                         </option>
-                        <option className="text-black/80 ">
+                        <option className="text-black/80">
                           Basics of Derivatives Market
                         </option>
-                        <option className="text-black/80 ">
+                        <option className="text-black/80">
                           Techno - Funda Module
                         </option>
-                        <option className="text-black/80 ">
+                        <option className="text-black/80">
                           Personal Finance Program
                         </option>
                       </select>
@@ -166,17 +251,22 @@ export default function Page() {
 
                     {/* Message */}
                     <textarea
+                      name="message"
                       rows="4"
+                      value={formData.message}
+                      onChange={handleChange}
                       placeholder="Message"
-                      className="w-full border border-white/80 rounded text-white px-3 py-2 focus:outline-none "
+                      required
+                      className="w-full border border-white/80 rounded text-white px-3 py-2 focus:outline-none bg-transparent"
                     ></textarea>
 
                     {/* Button */}
                     <button
                       type="submit"
-                      className="text-sm font-medium bg-[#2AA169] text-white py-2 px-6 rounded-md cursor-pointer"
+                      disabled={isSubmitting}
+                      className="text-sm font-medium bg-[#2AA169] text-white py-2 px-6 rounded-md cursor-pointer disabled:opacity-50"
                     >
-                      Send Message
+                      {isSubmitting ? "Sending..." : "Send Message"}
                     </button>
                   </form>
                 </div>
@@ -186,6 +276,7 @@ export default function Page() {
         </div>
       </div>
 
+      {/* Rest of your code remains exactly the same */}
       <div className="section__gap">
         {/* Program Highlights Section */}
         {/* <div>
