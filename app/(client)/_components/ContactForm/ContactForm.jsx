@@ -17,6 +17,13 @@ export default function ContactForm() {
 
   const [formData, setFormData] = useState(initialState)
 
+  // Helper function to extract country code from the selected option
+  const getCountryCode = (countryString) => {
+    // Extract the code from strings like "India (+91)" -> "+91"
+    const match = countryString.match(/\(([^)]+)\)/)
+    return match ? match[1] : null
+  }
+
   // Handle input changes
   const handleChange = e => {
     const { name, value } = e.target
@@ -27,10 +34,14 @@ export default function ContactForm() {
   const handleSubmit = async e => {
     e.preventDefault()
 
-    // Map `phone` to `mobile` for API
+    // Extract country code from the selected country option
+    const countryCode = getCountryCode(formData.country)
+
+    // Map form fields to API expected payload
     const payload = {
       name: formData.name,
       email: formData.email,
+      country_code: countryCode,  // Add country_code
       mobile: formData.phone,
       course: formData.course,
       message: formData.message
@@ -104,6 +115,7 @@ export default function ContactForm() {
                 onChange={handleChange}
                 placeholder='Name'
                 className='w-full border border-black/10 rounded px-3 py-2 focus:outline-none '
+                required
               />
               <input
                 type='email'
@@ -112,6 +124,7 @@ export default function ContactForm() {
                 onChange={handleChange}
                 placeholder='Email'
                 className='w-full border border-black/10 rounded px-3 py-2 focus:outline-none '
+                required
               />
             </div>
 
@@ -129,15 +142,15 @@ export default function ContactForm() {
                 <option>Sri Lanka (+94)</option>
                 <option>USA (+1)</option>
                 <option>UK (+44)</option>
-
               </select>
               <input
-                type='text'
+                type='tel'
                 name='phone'
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder='Phone Number'
                 className='w-full border border-black/10 rounded px-3 py-2 focus:outline-none '
+                required
               />
               <select
                 name='course'
@@ -161,12 +174,13 @@ export default function ContactForm() {
               onChange={handleChange}
               placeholder='Message'
               className='w-full border border-black/10 rounded px-3 py-2 focus:outline-none '
+              required
             ></textarea>
 
             {/* Button */}
             <button
               type='submit'
-              className='w-full bg-[#4483B8] text-white font-medium py-3 rounded   cursor-pointer'
+              className='w-full bg-[#4483B8] text-white font-medium py-3 rounded cursor-pointer hover:bg-[#3670a0] transition-colors'
             >
               Send Message
             </button>
