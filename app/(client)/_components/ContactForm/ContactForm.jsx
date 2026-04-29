@@ -38,7 +38,7 @@ export default function ContactForm() {
 
     try {
       const res = await axios.post(
-        'https://stockcircle.mrshakil.com/api/contact/get-in-touch/',
+        'https://stockcircle.ethicalden.com/api/contact/get-in-touch/',
         payload
       )
       console.log('Response:', res.data)
