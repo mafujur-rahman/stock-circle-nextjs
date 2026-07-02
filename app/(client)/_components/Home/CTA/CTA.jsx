@@ -8,7 +8,7 @@ export default function CTA() {
   const statsData = [
     {
       id: 1,
-      number: "1850+",
+      number: "1875+",
       title: "Students Trained",
       description: "Empowering learners with industry-ready skills.",
     },
@@ -20,7 +20,7 @@ export default function CTA() {
     },
     {
       id: 3,
-      number: "350+",
+      number: "355+",
       title: "Batches Completed",
       description: "Consistently delivering successful learning journeys.",
     },

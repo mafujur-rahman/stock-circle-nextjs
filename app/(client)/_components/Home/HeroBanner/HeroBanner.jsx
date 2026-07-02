@@ -123,7 +123,7 @@ export default function HeroBanner() {
                 </h3>
 
                 {/* Number / Stat */}
-                <p className="text-3xl font-bold mb-2">350 +</p>
+                <p className="text-3xl font-bold mb-2">355 +</p>
 
                 {/* Short Description */}
                 <p className="text-sm text-white/80">
@@ -139,7 +139,7 @@ export default function HeroBanner() {
       <div className="   bg-gradient-to-l from-green-300 via-[#4483b8] to-green-300">
         <div className="text-white max-w-7xl mx-auto  py-5 ">
           <Marquee>
-            350+ live batches completed 1850+ students trained 4.7/5 average
+            355+ live batches completed 1875+ students trained 4.7/5 average
             rating 96% course completion rate
           </Marquee>
         </div>
